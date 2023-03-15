@@ -20,31 +20,33 @@ public class MqttUtil {
      */
     static Logger LOGGER = LoggerFactory.getLogger(MqttFactory.class);
     public static void send(String topic, Object data) {  
-        // 获取客户端实例
+        // create a new client instance
         MqttClient client = MqttFactory.getInstance();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            // 转换消息为json字符串
+            // convert message into JSON String
             String json = mapper.writeValueAsString(data);   
             client.publish(topic, new MqttMessage(json.getBytes(StandardCharsets.UTF_8)));
         } catch (JsonProcessingException e) {
-            LOGGER.error(String.format("MQTT: 主题[%s]发送消息转换json失败", topic));  
+            LOGGER.error(String.format("MQTT: topic [%s] failed to convert to JSON String", topic));
         } catch (MqttException e) {
-            LOGGER.error(String.format("MQTT: 主题[%s]发送消息失败", topic));  
+            LOGGER.error(String.format("MQTT: topic [%s] failed to send message", topic));
         } 
     }
 
     /**
-     * 订阅主题 
-     * @param topic 主题 
-     * @param listener 消息监听处理器 
+     * subscribe topic
+     * @param topic topic
+     * @param listener
      */
     public static void subscribe(String topic, IMqttMessageListener listener) {
         MqttClient client = MqttFactory.getInstance(); 
         try {  
             client.subscribe(topic, listener); 
-        } catch (MqttException e) {  
-            LOGGER.error(String.format("MQTT: 订阅主题[%s]失败", topic)); 
+        } catch (MqttException e) {
+
+            LOGGER.error(String.format("MQTT: failed to subscribe topic", topic));
+            LOGGER.error(e.getMessage());
         }
     }
 

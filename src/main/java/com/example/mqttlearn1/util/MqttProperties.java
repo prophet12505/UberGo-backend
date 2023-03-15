@@ -8,10 +8,7 @@ public class MqttProperties {
     public MqttProperties(){
 
     }
-    public MqttProperties(String address) {
-//        this.address = address;
-        ;
-    }
+
 
     public String getAddress() {
         return address;
