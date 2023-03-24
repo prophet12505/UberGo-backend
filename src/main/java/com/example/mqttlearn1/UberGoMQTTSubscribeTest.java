@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MqttLearn1ApplicationSubscribeTest implements IMqttMessageListener {
+public class UberGoMQTTSubscribeTest implements IMqttMessageListener {
     static Logger LOGGER = LoggerFactory.getLogger(MqttFactory.class);
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
@@ -19,8 +19,8 @@ public class MqttLearn1ApplicationSubscribeTest implements IMqttMessageListener 
 
     public static void main(String[] args) {
 
-        MqttUtil.subscribe("test01", new MqttLearn1ApplicationSubscribeTest());
-        SpringApplication.run(MqttLearn1ApplicationSubscribeTest.class, args);
+        MqttUtil.subscribe("test01", new UberGoMQTTSubscribeTest());
+        SpringApplication.run(UberGoMQTTSubscribeTest.class, args);
 
     }
 

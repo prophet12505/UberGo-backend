@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MqttLearn1ApplicationPublishTest implements IMqttMessageListener {
+public class UberGoMQTTPublishTest implements IMqttMessageListener {
     static Logger LOGGER = LoggerFactory.getLogger(MqttFactory.class);
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
@@ -19,7 +19,7 @@ public class MqttLearn1ApplicationPublishTest implements IMqttMessageListener {
 
     public static void main(String[] args) {
         MqttUtil.send("test01", "hey bro");
-        SpringApplication.run(MqttLearn1ApplicationPublishTest.class, args);
+        SpringApplication.run(UberGoMQTTPublishTest.class, args);
         while (true) {
             System.out.println("Hello, world!");
             MqttUtil.send("test01", "hey bro");
