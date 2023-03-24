@@ -1,6 +1,6 @@
-package com.example.mqttlearn1.util;
+package com.example.ubergo.util;
 
-import com.example.mqttlearn1.factory.MqttFactory;
+import com.example.ubergo.factory.MqttFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;

@@ -1,4 +1,4 @@
-package com.example.mqttlearn1.util;
+package com.example.ubergo.util;
 
 
 public class MqttProperties {

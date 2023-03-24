@@ -1,12 +1,10 @@
-package com.example.mqttlearn1.controller;
+package com.example.ubergo.controller;
 
-import com.example.mqttlearn1.entity.Person;
-import com.example.mqttlearn1.service.HelloService;
+import com.example.ubergo.entity.Person;
+import com.example.ubergo.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class HelloController {

@@ -1,7 +1,7 @@
-package com.example.mqttlearn1;
+package com.example.ubergo;
 
-import com.example.mqttlearn1.factory.MqttFactory;
-import com.example.mqttlearn1.util.MqttUtil;
+import com.example.ubergo.factory.MqttFactory;
+import com.example.ubergo.util.MqttUtil;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;

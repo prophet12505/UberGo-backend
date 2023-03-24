@@ -1,7 +1,7 @@
-package com.example.mqttlearn1.mapper;
+package com.example.ubergo.mapper;
 
 
-import com.example.mqttlearn1.entity.Person;
+import com.example.ubergo.entity.Person;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

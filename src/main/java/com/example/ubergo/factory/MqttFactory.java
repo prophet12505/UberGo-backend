@@ -1,6 +1,6 @@
-package com.example.mqttlearn1.factory;
+package com.example.ubergo.factory;
 
-import com.example.mqttlearn1.util.MqttProperties;
+import com.example.ubergo.util.MqttProperties;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;

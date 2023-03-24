@@ -1,4 +1,4 @@
-package com.example.mqttlearn1.entity;
+package com.example.ubergo.entity;
 
 public class Person {
     private Integer id;

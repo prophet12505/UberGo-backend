@@ -1,7 +1,7 @@
-package com.example.mqttlearn1;
+package com.example.ubergo;
 
-import com.example.mqttlearn1.factory.MqttFactory;
-import com.example.mqttlearn1.util.MqttUtil;
+import com.example.ubergo.factory.MqttFactory;
+import com.example.ubergo.util.MqttUtil;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UberGoMQTTSubscribeTest implements IMqttMessageListener {
+public class UberGoMQTTPublishTest implements IMqttMessageListener {
     static Logger LOGGER = LoggerFactory.getLogger(MqttFactory.class);
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
@@ -18,9 +18,17 @@ public class UberGoMQTTSubscribeTest implements IMqttMessageListener {
     }
 
     public static void main(String[] args) {
-
-        MqttUtil.subscribe("test01", new UberGoMQTTSubscribeTest());
-        SpringApplication.run(UberGoMQTTSubscribeTest.class, args);
+        MqttUtil.send("test01", "hey bro");
+        SpringApplication.run(UberGoMQTTPublishTest.class, args);
+        while (true) {
+            System.out.println("Hello, world!");
+            MqttUtil.send("test01", "hey bro");
+            try {
+                Thread.sleep(3000); // Sleep for 3 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 

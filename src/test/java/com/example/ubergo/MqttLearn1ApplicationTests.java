@@ -1,4 +1,4 @@
-package com.example.mqttlearn1;
+package com.example.ubergo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

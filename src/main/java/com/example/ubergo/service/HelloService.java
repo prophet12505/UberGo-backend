@@ -1,7 +1,7 @@
-package com.example.mqttlearn1.service;
+package com.example.ubergo.service;
 
-import com.example.mqttlearn1.entity.Person;
-import com.example.mqttlearn1.mapper.MyMapper;
+import com.example.ubergo.entity.Person;
+import com.example.ubergo.mapper.MyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
