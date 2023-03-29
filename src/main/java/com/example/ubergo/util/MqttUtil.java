@@ -15,8 +15,8 @@ import java.nio.charset.StandardCharsets;
 public class MqttUtil {
     /**
      *   发送消息
-     *   @param topic 主题
-     *   @param data 消息内容
+     *   @param topic
+     *   @param data
      */
     static Logger LOGGER = LoggerFactory.getLogger(MqttFactory.class);
     public static void send(String topic, Object data) {  
