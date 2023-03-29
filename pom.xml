@@ -9,10 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>mqttLearn1</artifactId>
+    <artifactId>ubergo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mqttLearn1</name>
-    <description>mqttLearn1</description>
+    <name>ubergo</name>
+    <description>ubergo</description>
+
     <properties>
         <java.version>19</java.version>
     </properties>
@@ -79,11 +80,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-mqtt</artifactId>
             <version>5.3.2.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>

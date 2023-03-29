@@ -12,6 +12,7 @@ public class HelloService {
 
 
     private final MyMapper myMapper;
+
     @Autowired
     public HelloService(MyMapper myMapper) {
         this.myMapper = myMapper;

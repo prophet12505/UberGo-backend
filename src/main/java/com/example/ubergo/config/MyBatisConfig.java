@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
-@MapperScan("com.example.mqttlearn1.mapper")
+@MapperScan("com.example.ubergo.mapper")
 public class MyBatisConfig {
 
     @Bean
