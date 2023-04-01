@@ -1,7 +1,6 @@
 package com.example.ubergo;
 
-import com.example.ubergo.factory.MqttFactory;
-import com.example.ubergo.util.MqttUtil;
+
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
@@ -11,14 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class UberGoApplication implements IMqttMessageListener {
-    static Logger LOGGER = LoggerFactory.getLogger(MqttFactory.class);
+    static Logger LOGGER = LoggerFactory.getLogger(UberGoApplication.class);
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        LOGGER.info(String.format("MQTT: 订阅主题[%s]发来消息[%s]", topic, new String(mqttMessage.getPayload())));
+        LOGGER.info(String.format("MQTT: topic[%s] has sent message [%s]", topic, new String(mqttMessage.getPayload())));
     }
     public static void main(String[] args) {
-        MqttUtil.subscribe("test01", new UberGoApplication());
+        //MqttUtil.subscribe("test01", new UberGoApplication());
         SpringApplication.run(UberGoApplication.class, args);
 
     }

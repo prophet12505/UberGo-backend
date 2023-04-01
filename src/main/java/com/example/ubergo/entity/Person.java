@@ -1,5 +1,8 @@
 package com.example.ubergo.entity;
 
+import lombok.Data;
+
+
 public class Person {
     private Integer id;
     private String name;

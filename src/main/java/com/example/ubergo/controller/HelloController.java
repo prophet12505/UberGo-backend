@@ -1,5 +1,6 @@
 package com.example.ubergo.controller;
 
+import com.example.ubergo.config.MqttPushClient;
 import com.example.ubergo.entity.Person;
 import com.example.ubergo.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ public class HelloController {
 
     private final HelloService helloService;
     @Autowired
+    private MqttPushClient mqttPushClient;
+
+    @Autowired
     public HelloController(HelloService helloService) {
         this.helloService = helloService;
     }
@@ -18,6 +22,7 @@ public class HelloController {
     @RequestMapping("/")
     public String Hello(){
         Person person=helloService.getPersonById(1);
+        mqttPushClient.publish("test01","this is a test message");
         return "hello, "+person.getName();
     }
 }
