@@ -9,13 +9,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UberGoApplication implements IMqttMessageListener {
+public class UberGoApplication  {
     static Logger LOGGER = LoggerFactory.getLogger(UberGoApplication.class);
 
-    @Override
-    public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        LOGGER.info(String.format("MQTT: topic[%s] has sent message [%s]", topic, new String(mqttMessage.getPayload())));
-    }
+
     public static void main(String[] args) {
         //MqttUtil.subscribe("test01", new UberGoApplication());
         SpringApplication.run(UberGoApplication.class, args);

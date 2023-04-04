@@ -12,25 +12,31 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class MqttSubClient {
-
+    private int subscribeQos;
     public MqttSubClient(MqttPushClient mqttPushClient){
+        this.subscribeQos=mqttPushClient.getSubscribeQos();
         subScribeDataPublishTopic();
     }
 
 
     private void subScribeDataPublishTopic(){
-        //订阅test_queue主题
-       subscribe("test_queue");
+        //subscribe test01 topic, for default testing purpose
+       subscribe("test01");
     }
 
     /**
-     * 订阅某个主题，qos默认为0
+     * subscribe a topic，qos is 0 by default
      *
      * @param topic
      */
     public void subscribe(String topic) {
-        subscribe(topic, 0);
+
+        subscribe(topic, this.subscribeQos);
     }
+//    public void subscribe(String topic,int subscribeQos) {
+//
+//        subscribe(topic, subscribeQos);
+//    }
 
     /**
      * 订阅某个主题

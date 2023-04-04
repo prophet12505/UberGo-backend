@@ -26,6 +26,12 @@ public class MqttConfiguration {
     private int timeout;
     private int keepAlive;
 
+    private int publishQos;
+    private int subscribeQos;
+
+
+
+
     public String getClientid() {
         return clientId;
     }
@@ -81,6 +87,21 @@ public class MqttConfiguration {
     public void setHost(String host) {
         this.host = host;
     }
+    public int getPublishQos() {
+        return publishQos;
+    }
+
+    public void setPublishQos(int publishQos) {
+        this.publishQos = publishQos;
+    }
+
+    public int getSubscribeQos() {
+        return subscribeQos;
+    }
+
+    public void setSubscribeQos(int subscribeQos) {
+        this.subscribeQos = subscribeQos;
+    }
 
     /**
      * 连接至mqtt服务器，获取mqtt连接
@@ -88,9 +109,9 @@ public class MqttConfiguration {
      */
     @Bean
     public MqttPushClient getMqttPushClient() {
-        //连接至mqtt服务器，获取mqtt连接
-        mqttPushClient.connect(host, clientId, userName, password, timeout, keepAlive);
-        //一连接mqtt,就订阅默认需要订阅的主题（如test_queue）
+        //connect to mqtt server，obtain mqtt connection
+        mqttPushClient.connect(host, clientId, userName, password, timeout, keepAlive,publishQos,subscribeQos);
+        //subscribe the topics needed once connected to mqtt（for example : test_queue）
         new MqttSubClient(mqttPushClient);
         return mqttPushClient;
     }
