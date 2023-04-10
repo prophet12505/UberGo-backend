@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class OrderForm {
     private int id;
-    private int tripId;
+    private int rideId;
     private LocalDateTime creationTime;
     private float totalPrice;
     private float startingPrice;

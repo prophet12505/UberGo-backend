@@ -61,9 +61,7 @@ public class MqttPushClient{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
     /**
      * publish，default qos is 0，non persistence
      *
@@ -76,7 +74,6 @@ public class MqttPushClient{
     public void publish(String topic, String pushMessage,int publishQos) {
         publish(publishQos, false, topic, pushMessage);
     }
-
     /**
      * publish
      *

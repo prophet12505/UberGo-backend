@@ -5,10 +5,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Component;
 
-/**
- * @Author:Dong
- * @Date：2020/7/31 9:59
- */
+
 @Slf4j
 @Component
 public class MqttSubClient {
@@ -39,9 +36,9 @@ public class MqttSubClient {
 //    }
 
     /**
-     * 订阅某个主题
+     * subscribe a certain topic
      *
-     * @param topic 主题名
+     * @param topic
      * @param qos
      */
     public void subscribe(String topic, int qos) {
@@ -49,7 +46,7 @@ public class MqttSubClient {
             MqttClient client = MqttPushClient.getClient();
             if (client == null) return;
             client.subscribe(topic, qos);
-            log.info("订阅主题:{}",topic);
+            log.info("subscribed topic :{}",topic);
         } catch (MqttException e) {
             e.printStackTrace();
         }

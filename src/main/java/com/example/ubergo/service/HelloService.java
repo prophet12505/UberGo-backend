@@ -9,17 +9,15 @@ import java.util.List;
 
 @Service
 public class HelloService {
-
-
     private final MyMapper myMapper;
 
     @Autowired
     public HelloService(MyMapper myMapper) {
+
         this.myMapper = myMapper;
     }
 
     public Person getPersonById(int id){
-
         return myMapper.getById(id);
     }
     public List<Person> getAllPersons(){

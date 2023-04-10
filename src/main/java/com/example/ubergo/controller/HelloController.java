@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     private final HelloService helloService;
+    
     @Autowired
     private MqttPushClient mqttPushClient;
 
@@ -21,8 +22,12 @@ public class HelloController {
 
     @RequestMapping("/")
     public String Hello(){
-        Person person=helloService.getPersonById(1);
-        mqttPushClient.publish("test01","this is a test message, Qos level 2",1);
-        return "hello, "+person.getName();
+//        Person person=helloService.getPersonById(1);
+        mqttPushClient.publish("rides-gd-sz","{\"message\":\"this is a test message\",\"qos\":2}",2);
+        return "hello, ";
     }
+
+
+
+
 }

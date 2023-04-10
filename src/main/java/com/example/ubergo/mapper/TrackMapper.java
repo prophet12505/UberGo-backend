@@ -12,15 +12,9 @@ import java.util.List;
 @Repository
 @Component
 @Mapper
-public interface MyMapper {
-    @Select("SELECT * FROM person WHERE id = #{id}")
-    Person getById(int id);
-
-    @Select("SELECT * FROM person")
-    List<Person> getAllPersons();
+public interface TrackMapper {
 
 
 
 
-    
 }

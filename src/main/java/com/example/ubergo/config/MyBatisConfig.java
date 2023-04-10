@@ -11,11 +11,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 @MapperScan("com.example.ubergo.mapper")
 public class MyBatisConfig {
-
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/mqtt-learner");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/ubergo");
         dataSource.setUsername("root");
         dataSource.setPassword("");
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
