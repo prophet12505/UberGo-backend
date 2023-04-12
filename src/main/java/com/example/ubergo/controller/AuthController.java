@@ -20,15 +20,15 @@ public class AuthController {
         return authService.createAUser(user);
     }
 
-    @RequestMapping(value = "/loginParams",method = RequestMethod.GET)
-    public GeneralMessageDTO loginParams(@RequestParam(value="phone") String mobileNumber,@RequestParam(value="token") String token){
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public GeneralMessageDTO login(@RequestParam(value="phone") String mobileNumber,@RequestParam(value="token") String token){
 
-        return authService.loginParams(mobileNumber,token);
+        return authService.login(mobileNumber,token);
     }
 
     @RequestMapping(value = "/user/{uid}",method = RequestMethod.PUT)
-    public GeneralMessageDTO uidSend(@PathVariable int uid,@RequestBody User user){
-        return authService.uidSend(uid,user);
+    public GeneralMessageDTO updateUser(@PathVariable int uid,@RequestBody User user){
+        return authService.updateUser(uid,user);
     }
 
 }

@@ -1,8 +1,6 @@
 package com.example.ubergo.controller;
 
-import com.example.ubergo.DTO.CreateARideReqDTO;
-import com.example.ubergo.DTO.GeneralMessageDTO;
-import com.example.ubergo.DTO.TakeOrderReqDTO;
+import com.example.ubergo.DTO.*;
 import com.example.ubergo.service.RideDistributionService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +17,20 @@ public class RideDistributionController {
         return rideDistributionService.createARide(createARideReqDTO);
     }
 
-    @RequestMapping(value = "/ride/{rid}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/ride/{rid}/takeOrder",method = RequestMethod.PUT)
     public GeneralMessageDTO takeOrder(@PathVariable int rid, @RequestBody TakeOrderReqDTO takeOrderReqDTO){
         return rideDistributionService.takeOrder(rid,takeOrderReqDTO);
+    }
+    @RequestMapping(value = "/ride/{rid}/cancel",method = RequestMethod.PUT)
+    public GeneralMessageDTO cancelRide(@PathVariable int rid, @RequestBody CancelRideReqDTO cancelRideReqDTO){
+        return rideDistributionService.cancelRide(rid,cancelRideReqDTO);
+    }
+
+    @RequestMapping(value = "/ride/{rid}",method = RequestMethod.GET)
+    public GeneralMessageDTO getRideInfo(@PathVariable int rid, @RequestParam(value = "long") Double longitide, @RequestParam(value = "lat") Double latitude){
+        //I haven't made use of location given
+        LocationDTO locationDTO=new LocationDTO(longitide,latitude);
+        return rideDistributionService.getRiderInfo(rid,locationDTO);
     }
 
 }

@@ -1,19 +1,23 @@
 package com.example.ubergo.service;
 
-import com.example.ubergo.DTO.CreateARideReqDTO;
-import com.example.ubergo.DTO.GeneralMessageDTO;
-import com.example.ubergo.DTO.TakeOrderReqDTO;
+import com.example.ubergo.DTO.*;
 import com.example.ubergo.UberGoApplication;
 import com.example.ubergo.entity.OrderForm;
 import com.example.ubergo.entity.Ride;
 import com.example.ubergo.mapper.OrderFormMapper;
 import com.example.ubergo.mapper.RideMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import static com.example.ubergo.utils.Constants.ARRIVING;
+import static com.example.ubergo.utils.Constants.CANCELLED;
+
 @Slf4j
 @Service
 public class RideDistributionService {
@@ -79,6 +83,41 @@ public class RideDistributionService {
         }
 
 
+    }
+
+    public GeneralMessageDTO cancelRide( int rid,  CancelRideReqDTO cancelRideReqDTO) {
+        if(cancelRideReqDTO.getCancel()==Boolean.TRUE){
+            Ride ride = rideMapper.getById(rid);
+            if(ride.getStatus().equals(CANCELLED)){
+                return new GeneralMessageDTO(221,"Ride has been cancelled");
+            }
+            if(ride.getStatus().equals(ARRIVING)){
+                // call tracking model to save it
+            }
+            else{
+                ride.setStatus(CANCELLED);
+                rideMapper.updateRide(ride);
+                return new GeneralMessageDTO(0,"Success");
+            }
+
+        }
+
+            return new GeneralMessageDTO(0,"cancel is set to false, No operation executed!");
+
+    }
+
+    public  GeneralMessageDTO getRiderInfo( int rid,  LocationDTO locationDTO){
+        try{
+            Ride ride=rideMapper.getById(rid);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            LOGGER.info(objectMapper.writeValueAsString(ride));
+            GetRideInforResDTO getRideInforResDTO=new GetRideInforResDTO(ride);
+            return new GeneralMessageDTO(0,"Success",getRideInforResDTO);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new GeneralMessageDTO(599,"ERROR:"+e.getMessage());
+        }
     }
 
 }

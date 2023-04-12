@@ -45,7 +45,7 @@ public class AuthService {
         }
         
     }
-    public GeneralMessageDTO loginParams(String mobileNumber,String token){
+    public GeneralMessageDTO login(String mobileNumber,String token){
         User user=userMapper.getUserByMobileNumber(mobileNumber);
         if(user==null){
             return new GeneralMessageDTO(111,"User does not exist ");
@@ -60,7 +60,7 @@ public class AuthService {
 
     }
 
-    public GeneralMessageDTO uidSend(int uid,User user){
+    public GeneralMessageDTO updateUser(int uid,User user){
         try{
 
             user.setUid(uid);
