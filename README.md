@@ -24,7 +24,7 @@ Error Code:
 
 3xx: Order/Checkout issues         
 311 -- Permission denied(wrong uid)         
-331 -- Payment failed(wrong uid)               
+331 -- Payment failed            
 
 # API documentation
 
