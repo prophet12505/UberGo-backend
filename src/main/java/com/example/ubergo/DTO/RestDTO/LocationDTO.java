@@ -1,4 +1,4 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

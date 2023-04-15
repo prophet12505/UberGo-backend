@@ -43,7 +43,7 @@ public interface RideMapper {
             @Result(column = "trip_evaluation_score", property = "tripEvaluationScore"),
             @Result(column = "itinerary_evaluation_content", property = "itineraryEvaluationContent")
     })
-    Ride getById(int ID);
+    Ride getById(Long ID);
 
     @Insert("INSERT INTO ride ( passenger_uid, driver_uid, channel, type, pick_up_lat, pick_up_long, pick_up_resolved_address, dest_lat, dest_long, dest_resolved_address, status, order_take_time, pick_up_time, arrival_time, cancel_time, total_length, itinerary_order_id, alarm_status, after_sales_status, trip_evaluation_score, itinerary_evaluation_content) "
             + "VALUES ( #{passengerUid}, NULL, #{channel}, #{type}, #{pickUpLat}, #{pickUpLong}, #{pickUpResolvedAddress}, #{destLat}, #{destLong}, #{destResolvedAddress}, '"+CREATED+"', #{orderTakeTime}, #{pickUpTime}, #{arrivalTime}, #{cancelTime}, #{totalLength}, #{itineraryOrderId}, #{alarmStatus}, #{afterSalesStatus}, #{tripEvaluationScore}, #{itineraryEvaluationContent})")

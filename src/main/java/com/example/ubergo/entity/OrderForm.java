@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class OrderForm {
-    private Integer id;
-    private Integer rideId;
+    private Long id;
+    private Long rideId;
     private LocalDateTime creationTime;
     private Double totalPrice;
     private Double startingPrice;
@@ -22,7 +22,7 @@ public class OrderForm {
     private String paymentResult;
 
     // Constructor, getters, and setters
-    public OrderForm(Integer rid){
+    public OrderForm(Long rid){
         this.rideId=rid;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 public class GeneralMessageDTO {
     private int status;

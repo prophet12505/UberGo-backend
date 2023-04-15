@@ -1,4 +1,4 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 import com.example.ubergo.entity.OrderForm;
 import lombok.Data;
@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class GetOrderInfoResDTO {
-    private Integer oid;
-    private Integer rid;
+    private Long oid;
+    private Long rid;
     private String creationTime;
     private Double price;
     public GetOrderInfoResDTO(OrderForm orderForm){

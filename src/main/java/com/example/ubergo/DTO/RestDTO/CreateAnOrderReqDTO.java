@@ -1,8 +1,8 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 import lombok.Data;
 
 @Data
 public class CreateAnOrderReqDTO {
-    private Integer rid;
+    private Long rid;
 }

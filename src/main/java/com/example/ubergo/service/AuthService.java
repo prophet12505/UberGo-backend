@@ -1,8 +1,7 @@
 package com.example.ubergo.service;
 
-import com.example.ubergo.DTO.GeneralMessageDTO;
+import com.example.ubergo.DTO.RestDTO.GeneralMessageDTO;
 import com.example.ubergo.entity.User;
-import com.example.ubergo.mapper.MyMapper;
 import com.example.ubergo.mapper.UserMapper;
 import com.example.ubergo.utils.RandomUsernameGenerator;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +36,15 @@ public class AuthService {
         }
         else{
             try{
-                userMapper.createAUser(user);
-                return  new GeneralMessageDTO(0,"Success");
+                User queriedUserByMobileNumber=userMapper.getByMobileNumber(user.getMobileNumber());
+                if(queriedUserByMobileNumber!=null ){
+                    return new GeneralMessageDTO(104,"mobile number already exists");
+                }
+                else{
+                    userMapper.createAUser(user);
+                    return  new GeneralMessageDTO(0,"Success");
+                }
+
             }catch (Exception e){
                 return  new GeneralMessageDTO(599,e.getMessage());
             }
@@ -46,7 +52,7 @@ public class AuthService {
         
     }
     public GeneralMessageDTO login(String mobileNumber,String token){
-        User user=userMapper.getUserByMobileNumber(mobileNumber);
+        User user=userMapper.getByMobileNumber(mobileNumber);
         if(user==null){
             return new GeneralMessageDTO(111,"User does not exist ");
         }
@@ -60,7 +66,7 @@ public class AuthService {
 
     }
 
-    public GeneralMessageDTO updateUser(int uid,User user){
+    public GeneralMessageDTO updateUser(Long uid,User user){
         try{
 
             user.setUid(uid);

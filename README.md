@@ -2,29 +2,30 @@ Error Code:
 
 1XX: Auth/User issues
 
-101 -- signup Role missing        
-102 -- signup password missing          
-103 -- signup role model missing              
+101 -- signup Role missing  
+102 -- signup password missing  
+103 -- signup mobile number missing  
+104 -- phone number already exists
 
-111 -- login User does not exist         
-112 -- login password error          
+111 -- login User does not exist  
+112 -- login password error
 
-129 -- general user put request error         
+129 -- general user put request error
 
-2xx: Ride Distribution issues        
-20x -- create ride error          
-201 -- Order not paid             
-209 -- general create ride error        
+2xx: Ride Distribution issues  
+20x -- create ride error  
+201 -- Order not paid  
+209 -- general create ride error
 
-21x -- driver take order error         
-211 -- Ride has been accepted by others        
+21x -- driver take order error  
+211 -- Ride has been accepted by others
 
-22x -- cancel ride error          
-221 -- ride has already been cancelled           
+22x -- cancel ride error  
+221 -- ride has already been cancelled
 
-3xx: Order/Checkout issues         
-311 -- Permission denied(wrong uid)         
-331 -- Payment failed            
+3xx: Order/Checkout issues  
+311 -- Permission denied(wrong uid)  
+331 -- Payment failed
 
 # API documentation
 
@@ -61,11 +62,14 @@ back end signup up user
 | msg    | String  | "success"/ "errorMsg"  |
 
 ## Login
+
 login
+
 <!-- // I didn’t differentia driver and rider yet -->
+
 ### HTTP REQUEST
 
-Get /loginParams
+Get /login
 back end signup up user
 
 ### REQUEST BODY
@@ -83,8 +87,11 @@ back end signup up user
 | msg    | String  | "success"/ "errorMsg"  |
 
 ## updateUser
+
 updateUser
+
 <!-- haven’t done city validation -->
+
 ### HTTP REQUEST
 
 Put /user/{uid}
@@ -109,6 +116,10 @@ Put /user/{uid}
 
 ride -- user publishes the order
 
+<!-- //I think I need to send dest long and lat as well?
+//haven’t tested when user hasn’t paid the order
+//currently it’s okay to have multiple rides for one user -->
+
 ### HTTP REQUEST
 
 Post /ride
@@ -122,6 +133,8 @@ Post /ride
 | pickUpLat             | float   |                     |
 | pickUpResolvedAddress | String  |                     |
 | destResolvedAddress   | String  |                     |
+| destLong              | float   |                     |
+| destLat               | float   |                     |
 | type                  | Integer |                     |
 | province              | String  |                     |
 | city                  | String  |                     |
@@ -215,81 +228,98 @@ GET /ride/rid
 | msg    | String  | "success"/ "errorMsg"  |
 | data   | String  | getRideInforResDTO     |
 
-
 ## createAnOrder
+
 Only one RID is required, and Order automatically calculates the price by accessing the data in the Ride and SNAP tables, generates a bill and returns the ID of the bill.
+
 <!-- Haven't "automatically calculates the price by accessing the data in the Ride and SNAP tables, generates a bill and returns the ID of the bill." -->
+
 ### HTTP REQUEST
+
 POST /order
 
 ### REQUEST Body
+
 | Name | Type   | Description |
 | ---- | ------ | ----------- |
 | rid  | Double |             |
 
 ### RESPONSE BODY(generalMessageDTO)
+
 | Name   | Type    | Description            |
 | ------ | ------- | ---------------------- |
 | status | Integer | error code(0==success) |
 | msg    | String  | "success"/ "errorMsg"  |
-| data   | String  | {"oid": ""}     |
-
+| data   | String  | {"oid": ""}            |
 
 ## getOrderInfo
+
 Query order data
+
 ### HTTP REQUEST
+
 GET /order/{oid}
+
 ### REQUEST Params
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| uid | Integer |             |
+
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| uid  | Integer |             |
+
 ### RESPONSE BODY(generalMessageDTO)
+
 | Name   | Type    | Description            |
 | ------ | ------- | ---------------------- |
 | status | Integer | error code(0==success) |
 | msg    | String  | "success"/ "errorMsg"  |
-| data   | String  | {
-		"oid": "",
-		"rid": "",
-		"createTime": "",
-		"price": 20.00
-	}
-     |
+| data   | String  | {                      |
 
+    	"oid": "",
+    	"rid": "",
+    	"createTime": "",
+    	"price": 20.00
+    }
+     |
 
 ## createPaymentRequest
 
 ### HTTP REQUEST
+
 /order/{oid}/createPaymentRequest
 
 ### REQUEST Body
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| uid  | Integer |             |
-| platform  | String |        |
+
+| Name     | Type    | Description |
+| -------- | ------- | ----------- |
+| uid      | Integer |             |
+| platform | String  |             |
 
 ### RESPONSE BODY(generalMessageDTO)
+
 | Name   | Type    | Description            |
 | ------ | ------- | ---------------------- |
 | status | Integer | error code(0==success) |
 | msg    | String  | "success"/ "errorMsg"  |
-| data   | String  | 
+| data   | String  |
 
 ## confirmPayment
 
 ### HTTP REQUEST
+
 /order/{oid}/confirmPayment
 
 ### REQUEST Body
-| Name | Type   | Description |
-| ---- | ------ | ----------- |
-| uid  | Integer |             |
-| platform  | String |        |
-| track_no  | String |        |
+
+| Name     | Type    | Description |
+| -------- | ------- | ----------- |
+| uid      | Integer |             |
+| platform | String  |             |
+| track_no | String  |             |
 
 ### RESPONSE BODY(generalMessageDTO)
+
 | Name   | Type    | Description            |
 | ------ | ------- | ---------------------- |
 | status | Integer | error code(0==success) |
 | msg    | String  | "success"/ "errorMsg"  |
-| data   | String  | 
+| data   | String  |

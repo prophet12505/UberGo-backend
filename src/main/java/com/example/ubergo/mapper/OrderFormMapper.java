@@ -34,10 +34,10 @@ public interface OrderFormMapper {
             @Result(column = "payment_serial_number", property = "paymentSerialNumber"),
             @Result(column = "payment_result", property = "paymentResult")
     })
-    OrderForm getById(int id);
+    OrderForm getById(Long id);
 
     @Select("SELECT * FROM order_form WHERE ride_id IN (SELECT id FROM ride WHERE passenger_uid = #{passengerUid}) AND status = 'UNPAID'")
-    OrderForm selectUnpaidUserById(int passengerUid);
+    OrderForm selectUnpaidUserById(Long passengerUid);
 
     @Insert("INSERT INTO `order_form` (ride_id,total_price, starting_price, tour_fees, fuel_costs, time_fee, special_location_fee, dynamic_prices, status, payment_platform, payment_serial_number, payment_result) " +
             "VALUES (#{rideId}, #{totalPrice}, #{startingPrice}, #{tourFees}, #{fuelCosts}, #{timeFee}, #{specialLocationFee}, #{dynamicPrices}, '"+UNPAID+"', #{paymentPlatform}, #{paymentSerialNumber}, #{paymentResult})")

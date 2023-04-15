@@ -23,7 +23,7 @@ public class HelloController {
     @RequestMapping("/")
     public String Hello(){
 //        Person person=helloService.getPersonById(1);
-        mqttPushClient.publish("rides-gd-sz","{\"message\":\"this is a test message\",\"qos\":2}",2);
+        mqttPushClient.publish("test01","{\"message\":\"this is a test message\",\"qos\":2}",2);
         return "hello, ";
     }
 

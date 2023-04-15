@@ -1,8 +1,8 @@
 package com.example.ubergo.controller;
 
-import com.example.ubergo.DTO.ConfirmPaymentReqDTO;
-import com.example.ubergo.DTO.CreateAnOrderReqDTO;
-import com.example.ubergo.DTO.GeneralMessageDTO;
+import com.example.ubergo.DTO.RestDTO.ConfirmPaymentReqDTO;
+import com.example.ubergo.DTO.RestDTO.CreateAnOrderReqDTO;
+import com.example.ubergo.DTO.RestDTO.GeneralMessageDTO;
 import com.example.ubergo.service.OrderCheckoutService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,18 +21,18 @@ public class OrderCheckoutController {
     }
 
     @RequestMapping(value = "/order/{oid}",method = RequestMethod.GET)
-    public GeneralMessageDTO getOrderInfo(@PathVariable Integer oid,@RequestParam(value="uid") Integer uid){
+    public GeneralMessageDTO getOrderInfo(@PathVariable Long oid,@RequestParam(value="uid") Long uid){
             return orderCheckoutService.getOrderInfo(oid,uid);
 
     }
 
     @RequestMapping(value = "/order/{oid}/createPaymentRequest",method = RequestMethod.PUT)
-    public GeneralMessageDTO createPaymentRequest(@PathVariable Integer oid,@RequestBody CreateAnOrderReqDTO createAnOrderReqDTO){
+    public GeneralMessageDTO createPaymentRequest(@PathVariable Long oid,@RequestBody CreateAnOrderReqDTO createAnOrderReqDTO){
         return orderCheckoutService.createPaymentRequest(oid,createAnOrderReqDTO);
 
     }
     @RequestMapping(value = "/order/{oid}/confirmPayment",method = RequestMethod.PUT)
-    public GeneralMessageDTO confirmPayment(@PathVariable Integer oid,@RequestBody ConfirmPaymentReqDTO confirmPaymentReqDTO){
+    public GeneralMessageDTO confirmPayment(@PathVariable Long oid,@RequestBody ConfirmPaymentReqDTO confirmPaymentReqDTO){
         return new GeneralMessageDTO(0,"Success");
     }
 }

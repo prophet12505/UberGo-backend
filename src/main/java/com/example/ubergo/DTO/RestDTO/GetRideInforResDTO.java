@@ -1,7 +1,6 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 import com.example.ubergo.entity.Ride;
-import com.example.ubergo.utils.LocationUtils;
 import lombok.Data;
 
 import java.util.List;
@@ -9,13 +8,13 @@ import java.util.List;
 
 @Data
 public class GetRideInforResDTO {
-    private int rid;
+    private Long rid;
     private String createTime;
     private LocationDTO pickUpLocation;
     private LocationDTO destLocation;
     private String pickUpResolvedAddress;
     private String destResolvedAddress;
-    private double estimatedMileage;
+    private Double estimatedMileage;
     private String type;
     private String status;
     private String channel;
@@ -29,7 +28,7 @@ public class GetRideInforResDTO {
         this.pickUpResolvedAddress=ride.getPickUpResolvedAddress();
         this.destResolvedAddress=ride.getDestResolvedAddress();
 //        this.estimatedMileage= LocationUtils.distance(ride.getPickUpLong(),ride.getPickUpLat(),ride.getDestLong(),ride.getDestLat());
-        this.estimatedMileage=0;
+        this.estimatedMileage= Double.valueOf(0);
         this.type= ride.getType();
         this.status= ride.getStatus();
         this.channel=ride.getChannel();

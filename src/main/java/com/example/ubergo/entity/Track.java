@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class Track {
-    private int id;
-    private int tripId;
+    private Long id;
+    private Long tripId;
     private LocalDateTime timeSeries;
     private String gpsTrajectory;
-    private float speedTrajectory;
-    private float altitudeTrajectory;
+    private Double speedTrajectory;
+    private Double altitudeTrajectory;
 }

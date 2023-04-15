@@ -1,11 +1,11 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class ConfirmPaymentReqDTO {
-    private Integer uid;
+    private Long uid;
     private String platform;
 
     @JsonProperty("trade_no")

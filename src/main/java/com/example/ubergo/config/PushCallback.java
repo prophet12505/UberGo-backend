@@ -20,7 +20,7 @@ public class PushCallback implements MqttCallback {
         if (null != mqttPushClient) {
             mqttPushClient.connect(mqttConfiguration.getHost(), mqttConfiguration.getClientid(), mqttConfiguration.getUsername(),
                     mqttConfiguration.getPassword(), mqttConfiguration.getTimeout(), mqttConfiguration.getKeepalive(),mqttConfiguration.getPublishQos(),mqttConfiguration.getSubscribeQos());
-            log.info("已重连");
+            log.info("already reconnected");
         }
 
     }

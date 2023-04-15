@@ -1,12 +1,11 @@
 package com.example.ubergo.service;
 
-import com.example.ubergo.DTO.CreateAnOrderReqDTO;
-import com.example.ubergo.DTO.GeneralMessageDTO;
-import com.example.ubergo.DTO.GetOrderInfoResDTO;
+import com.example.ubergo.DTO.RestDTO.CreateAnOrderReqDTO;
+import com.example.ubergo.DTO.RestDTO.GeneralMessageDTO;
+import com.example.ubergo.DTO.RestDTO.GetOrderInfoResDTO;
 import com.example.ubergo.entity.OrderForm;
 import com.example.ubergo.mapper.OrderFormMapper;
 import com.example.ubergo.mapper.RideMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class OrderCheckoutService {
         this.rideMapper = rideMapper;
     }
 
-    public GeneralMessageDTO createAnOrder(Integer rid){
+    public GeneralMessageDTO createAnOrder(Long rid){
         try{
             orderFormMapper.createAnOrder(new OrderForm(rid));
             return new GeneralMessageDTO(0,"Success",new Object(){public final Integer oid=orderFormMapper.getNextOrderId();});
@@ -36,7 +35,7 @@ public class OrderCheckoutService {
         }
     }
 
-    public GeneralMessageDTO getOrderInfo(Integer oid, Integer uid){
+    public GeneralMessageDTO getOrderInfo(Long oid, Long uid){
         try{
             OrderForm orderForm=orderFormMapper.getById(oid);
 //            ObjectMapper objectMapper=new ObjectMapper();
@@ -53,7 +52,7 @@ public class OrderCheckoutService {
             return  new GeneralMessageDTO(599,"ERROR:"+e.getMessage());
         }
     }
-    public  GeneralMessageDTO createPaymentRequest(Integer oid, CreateAnOrderReqDTO createAnOrderReqDTO){
+    public  GeneralMessageDTO createPaymentRequest(Long oid, CreateAnOrderReqDTO createAnOrderReqDTO){
         try {
             return  new GeneralMessageDTO(0,"Success",new Object(){public final String orderStr="";});
         }

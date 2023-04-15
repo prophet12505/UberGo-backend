@@ -1,6 +1,6 @@
 package com.example.ubergo.controller;
 
-import com.example.ubergo.DTO.GeneralMessageDTO;
+import com.example.ubergo.DTO.RestDTO.GeneralMessageDTO;
 import com.example.ubergo.entity.User;
 import com.example.ubergo.service.AuthService;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/user/{uid}",method = RequestMethod.PUT)
-    public GeneralMessageDTO updateUser(@PathVariable int uid,@RequestBody User user){
+    public GeneralMessageDTO updateUser(@PathVariable long uid,@RequestBody User user){
         return authService.updateUser(uid,user);
     }
 

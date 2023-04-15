@@ -1,9 +1,9 @@
-package com.example.ubergo.DTO;
+package com.example.ubergo.DTO.RestDTO;
 
 import lombok.Data;
 
 @Data
 public class CreatePaymentRequestReqDTO {
-    private Integer uid;
+    private Long uid;
     private String platform;
 }

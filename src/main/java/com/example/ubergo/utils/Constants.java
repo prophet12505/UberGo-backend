@@ -28,6 +28,8 @@ public class Constants {
     public static final String REFUNDING="REFUNDING";
     public static final String REFUNDED="REFUNDED";
 
+    //MQTT Distribution action types
+    public static final String DISTRIBUTION_RIDE_CREATED="DISTRIBUTION_RIDE_CREATED";
 
 
 }

@@ -14,7 +14,20 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     @Select("SELECT * FROM user WHERE uid = #{UID}")
-    User getById(int UID);
+    @Results({
+            @Result(column = "mobile_number", property = "mobileNumber"),
+            @Result(column = "city", property = "city"),
+            @Result(column = "regional_province", property = "regionalProvince")
+    })
+    User getById(Long UID);
+
+    @Select("SELECT * FROM user WHERE mobile_number = #{mobileNumber}")
+    @Results({
+            @Result(column = "mobile_number", property = "mobileNumber"),
+            @Result(column = "city", property = "city"),
+            @Result(column = "regional_province", property = "regionalProvince")
+    })
+    User getByMobileNumber(String mobileNumber);
 
     @Insert("INSERT INTO user(mobile_number, identity, password, user_name, license_plate_number, car_type, total_trip_length, regional_province, city) " +
             "VALUES (#{mobileNumber}, #{identity}, #{password}, #{userName}, #{licensePlateNumber}, #{carType}, #{totalTripLength}, #{regionalProvince}, #{city})")
@@ -23,8 +36,8 @@ public interface UserMapper {
             User user
     );
 
-    @Select("SELECT * FROM user WHERE mobile_number = #{mobileNumber}")
-    User getUserByMobileNumber(String mobileNumber);
+//    @Select("SELECT * FROM user WHERE mobile_number = #{mobileNumber}")
+//    User getUserByMobileNumber(String mobileNumber);
 
     @Update({
             "<script>",

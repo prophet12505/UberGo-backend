@@ -1,6 +1,6 @@
 package com.example.ubergo.entity;
 
-import com.example.ubergo.DTO.CreateARideReqDTO;
+import com.example.ubergo.DTO.RestDTO.CreateARideReqDTO;
 import jakarta.persistence.Column;
 import lombok.Data;
 
@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class Ride {
-    private Integer id;
+    private Long id;
     private LocalDateTime creationTime;
-    private Integer passengerUid;
-    private Integer driverUid;
+    private Long passengerUid;
+    private Long driverUid;
     private String channel;
     private String type;
     @Column(name = "pick_up_lat")
@@ -33,7 +33,7 @@ public class Ride {
     private LocalDateTime arrivalTime;
     private LocalDateTime cancelTime;
     private Double totalLength;
-    private Integer itineraryOrderId;
+    private Long itineraryOrderId;
     private String alarmStatus;
     private String afterSalesStatus;
     private Integer tripEvaluationScore;
@@ -48,6 +48,8 @@ public class Ride {
         this.pickUpResolvedAddress=createARideReqDTO.getPickUpResolvedAddress();
         this.destResolvedAddress=createARideReqDTO.getDestResolvedAddress();
         this.type=createARideReqDTO.getType();
+        this.destLat=createARideReqDTO.getDestLat();
+        this.destLong=createARideReqDTO.getDestLong();
 
     }
     public Ride(){
