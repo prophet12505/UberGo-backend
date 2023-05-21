@@ -15,17 +15,26 @@ import java.util.List;
 public interface UserMapper {
     @Select("SELECT * FROM user WHERE uid = #{UID}")
     @Results({
+            @Result(column = "userName", property = "user_name"),
             @Result(column = "mobile_number", property = "mobileNumber"),
             @Result(column = "city", property = "city"),
-            @Result(column = "regional_province", property = "regionalProvince")
+            @Result(column = "regional_province", property = "regionalProvince"),
+            @Result(column = "license_plate_number", property = "licensePlateNumber"),
+            @Result(column = "car_type", property = "carType"),
+            @Result(column = "identity", property = "identity")
+
     })
     User getById(Long UID);
 
     @Select("SELECT * FROM user WHERE mobile_number = #{mobileNumber}")
     @Results({
+            @Result(column = "userName", property = "user_name"),
             @Result(column = "mobile_number", property = "mobileNumber"),
             @Result(column = "city", property = "city"),
-            @Result(column = "regional_province", property = "regionalProvince")
+            @Result(column = "regional_province", property = "regionalProvince"),
+            @Result(column = "license_plate_number", property = "licensePlateNumber"),
+            @Result(column = "car_type", property = "carType"),
+            @Result(column = "identity", property = "identity")
     })
     User getByMobileNumber(String mobileNumber);
 

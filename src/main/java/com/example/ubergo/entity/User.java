@@ -15,7 +15,5 @@ public class User {
     private String regionalProvince;
     private String city;
 
-
-
 }
 

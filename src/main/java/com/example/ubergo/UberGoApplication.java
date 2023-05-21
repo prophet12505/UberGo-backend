@@ -18,6 +18,5 @@ public class UberGoApplication  {
     public static void main(String[] args) {
         //MqttUtil.subscribe("test01", new UberGoApplication());
         SpringApplication.run(UberGoApplication.class, args);
-
     }
 }

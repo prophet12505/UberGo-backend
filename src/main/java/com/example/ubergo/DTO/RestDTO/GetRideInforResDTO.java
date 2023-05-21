@@ -1,6 +1,7 @@
 package com.example.ubergo.DTO.RestDTO;
 
 import com.example.ubergo.entity.Ride;
+import com.example.ubergo.entity.User;
 import lombok.Data;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class GetRideInforResDTO {
     private String status;
     private String channel;
     private List<LocationDTO> nearbyVehicles;
+    private User driver;
 
     public GetRideInforResDTO(Ride ride){
         this.rid=ride.getId();
@@ -33,6 +35,21 @@ public class GetRideInforResDTO {
         this.status= ride.getStatus();
         this.channel=ride.getChannel();
         this.nearbyVehicles=null;
+    }
+    public GetRideInforResDTO(Ride ride, User driver){
+        this.rid=ride.getId();
+        this.createTime= String.valueOf(ride.getCreationTime());
+        this.pickUpLocation=new LocationDTO(ride.getPickUpLong(),ride.getPickUpLat());
+        this.destLocation=new LocationDTO(ride.getDestLong(),ride.getDestLat());
+        this.pickUpResolvedAddress=ride.getPickUpResolvedAddress();
+        this.destResolvedAddress=ride.getDestResolvedAddress();
+//        this.estimatedMileage= LocationUtils.distance(ride.getPickUpLong(),ride.getPickUpLat(),ride.getDestLong(),ride.getDestLat());
+        this.estimatedMileage= Double.valueOf(0);
+        this.type= ride.getType();
+        this.status= ride.getStatus();
+        this.channel=ride.getChannel();
+        this.nearbyVehicles=null;
+        this.driver=driver;
     }
 }
 

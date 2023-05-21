@@ -203,15 +203,31 @@ PUT /ride/{rid}/cancel
 | data   | String  | {"channel":}           |
 
 ## getRideInfo
-
 Used for passengers to poll the status of orders and query order details
-
 <!-- haven't made usage of given long and lat  -->
 <!-- I directly calculated estimatedmiledge instead of map api, will change it later  -->
 
 ### HTTP REQUEST
 
 GET /ride/rid
+
+### REQUEST Params
+| Name | Type   | Description |
+| ---- | ------ | ----------- |
+| long | Double |             |
+| lat  | Double |             |
+
+### RESPONSE BODY(generalMessageDTO)
+| Name   | Type    | Description            |
+| ------ | ------- | ---------------------- |
+| status | Integer | error code(0==success) |
+| msg    | String  | "success"/ "errorMsg"  |
+| data   | String  | getRideInforResDTO     |
+
+
+## Arrive
+### HTTP REQUEST
+PUT /ride/{rid}/arrive
 
 ### REQUEST Params
 
@@ -228,11 +244,15 @@ GET /ride/rid
 | msg    | String  | "success"/ "errorMsg"  |
 | data   | String  | getRideInforResDTO     |
 
+
+# Order Module 
 ## createAnOrder
 
 Only one RID is required, and Order automatically calculates the price by accessing the data in the Ride and SNAP tables, generates a bill and returns the ID of the bill.
 
 <!-- Haven't "automatically calculates the price by accessing the data in the Ride and SNAP tables, generates a bill and returns the ID of the bill." -->
+
+
 
 ### HTTP REQUEST
 

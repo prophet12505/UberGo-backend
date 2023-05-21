@@ -4,7 +4,11 @@ package com.example.ubergo.mapper;
 import com.example.ubergo.entity.Person;
 import com.example.ubergo.entity.Ride;
 import com.example.ubergo.entity.User;
+
 import org.apache.ibatis.annotations.*;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +56,7 @@ public interface RideMapper {
     @Select("SELECT MAX(id) FROM ride;")
     Integer selectLargestRideId();
 
+    @Cacheable(value = "ridCache")
     @Select("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'ubergo' AND TABLE_NAME = 'ride'")
     Integer getNextRideId();
 
@@ -85,5 +90,34 @@ public interface RideMapper {
             "</script>"
     })
     void updateRide(Ride ride);
+
+
+    @Select("SELECT * FROM ride WHERE passenger_uid = #{uid}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "creation_time", property = "creationTime"),
+            @Result(column = "passenger_uid", property = "passengerUid"),
+            @Result(column = "driver_uid", property = "driverUid"),
+            @Result(column = "channel", property = "channel"),
+            @Result(column = "type", property = "type"),
+            @Result(column = "pick_up_lat", property = "pickUpLat"),
+            @Result(column = "pick_up_long", property = "pickUpLong"),
+            @Result(column = "pick_up_resolved_address", property = "pickUpResolvedAddress"),
+            @Result(column = "dest_lat", property = "destLat"),
+            @Result(column = "dest_long", property = "destLong"),
+            @Result(column = "dest_resolved_address", property = "destResolvedAddress"),
+            @Result(column = "status", property = "status"),
+            @Result(column = "order_take_time", property = "orderTakeTime"),
+            @Result(column = "pick_up_time", property = "pickUpTime"),
+            @Result(column = "arrival_time", property = "arrivalTime"),
+            @Result(column = "cancel_time", property = "cancelTime"),
+            @Result(column = "total_length", property = "totalLength"),
+            @Result(column = "itinerary_order_id", property = "itineraryOrderId"),
+            @Result(column = "alarm_status", property = "alarmStatus"),
+            @Result(column = "after_sales_status", property = "afterSalesStatus"),
+            @Result(column = "trip_evaluation_score", property = "tripEvaluationScore"),
+            @Result(column = "itinerary_evaluation_content", property = "itineraryEvaluationContent")
+    })
+    List<Ride> getRideByPassengerId(Long uid);
 
 }

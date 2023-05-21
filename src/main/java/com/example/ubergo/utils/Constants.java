@@ -8,9 +8,9 @@ public class Constants {
     public static final String USER_DRIVER="DRIVER";
     public static final String USER_RIDER="RIDER";
 
-    //RIDE Type
+    //RIDE Type/CAR TYPE
     public static final Integer ECONOMIC=0;
-    public static final Integer COMFORT=1;
+        public static final Integer COMFORT=1;
     public static final Integer LUXURY=2;
 
     //RIDE STATUS
@@ -21,7 +21,6 @@ public class Constants {
     public static final String  CANCELLED="CANCELLED";
     public static final String  ALARM_DURING_TRIP="ALARM_DURING_TRIP";
 
-
     //ORDER STATUS
     public static final String UNPAID="UNPAID";
     public static final String PAID="PAID";
@@ -29,7 +28,19 @@ public class Constants {
     public static final String REFUNDED="REFUNDED";
 
     //MQTT Distribution action types
+    public static final String DISTRIBUTION_BROADCAST="DISTRIBUTION_BROADCAST";
     public static final String DISTRIBUTION_RIDE_CREATED="DISTRIBUTION_RIDE_CREATED";
+    public static final String DISTRIBUTION_RIDE_CANCELLED="DISTRIBUTION_RIDE_CANCELLED";
+    public static final String DISTRIBUTION_RIDE_PICKED_UP="DISTRIBUTION_RIDE_PICKED_UP";
 
+
+    //MQTT track action types
+    public static final String ORDER_HAS_BEEN_TAKEN="ORDER_HAS_BEEN_TAKEN";
+    public static final String PASSENGER_HAS_BEEN_PICKED_UP="PASSENGER_HAS_BEEN_PICKED_UP";
+    public static final String DESTINATION_ARRIVED="DESTINATION_ARRIVED";
+    public static final String RIDE_CANCELLED="RIDE_CANCELLED";
+    public static final String DRIVER_LOCATION_REFRESH="DRIVER_LOCATION_REFRESH";
+    public static final String RIDER_LOCATION_REFRESH="RIDER_LOCATION_REFRESH";
+    public static final String UPDATE_TRACK="UPDATE_TRACK";
 
 }
