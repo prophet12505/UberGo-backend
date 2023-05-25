@@ -43,4 +43,9 @@ public class Constants {
     public static final String RIDER_LOCATION_REFRESH="RIDER_LOCATION_REFRESH";
     public static final String UPDATE_TRACK="UPDATE_TRACK";
 
+    //log level
+    public static final String INFO="INFO";
+    public static final String DEBUG="DEBUG";
+    public static final String WARNING="WARNING";
+    public static final String ERROR="ERROR";
 }
