@@ -3,8 +3,8 @@ package com.example.ubergo.DTO.MqttDTO;
 import lombok.Data;
 
 @Data
-public class locationShorthandDTO {
-    public locationShorthandDTO(String lng, String lat) {
+public class LocationShorthandDTO {
+    public LocationShorthandDTO(String lng, String lat) {
         this.lng = lng;
         this.lat = lat;
     }

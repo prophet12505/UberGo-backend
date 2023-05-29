@@ -2,6 +2,7 @@ package com.example.ubergo.service;
 
 import com.example.ubergo.DTO.MqttDTO.MqttMessageWrapperDTO;
 import com.example.ubergo.DTO.MqttDTO.PickUpDTO;
+import com.example.ubergo.DTO.RedisObject.TrackObject;
 import com.example.ubergo.DTO.RestDTO.*;
 import com.example.ubergo.config.MqttPushClient;
 import com.example.ubergo.config.MqttSubClient;
@@ -18,8 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,18 +37,20 @@ public class RideDistributionService {
     private final OrderFormMapper orderFormMapper;
     private final TrackMapper trackMapper;
     private  final RideTrackingService rideTrackingService;
+    private final RedisTemplate<String, TrackObject> redisTrackTemplate;
     @Autowired
     private MqttPushClient mqttPushClient;
     @Autowired
     private MqttSubClient mqttSubClient;
 
     @Autowired
-    public RideDistributionService(UserMapper userMapper, RideMapper rideMapper, OrderFormMapper orderFormMapper, TrackMapper trackMapper, RideTrackingService rideTrackingService) {
+    public RideDistributionService(UserMapper userMapper, RideMapper rideMapper, OrderFormMapper orderFormMapper, TrackMapper trackMapper, RideTrackingService rideTrackingService, RedisTemplate<String, TrackObject> redisTrackTemplate) {
         this.userMapper = userMapper;
         this.rideMapper = rideMapper;
         this.orderFormMapper = orderFormMapper;
         this.trackMapper = trackMapper;
         this.rideTrackingService = rideTrackingService;
+        this.redisTrackTemplate = redisTrackTemplate;
     }
 
     //need to check if previous order is paid or not
@@ -178,13 +183,34 @@ public class RideDistributionService {
     }
     public GeneralMessageDTO arrive( Long rid){
         try{
+
+            //get track from redis table, write track table to confirm
+            TrackObject storedTrack = (TrackObject) redisTrackTemplate.opsForHash().get("tracks", rid.toString());
+            if(storedTrack!=null){
+                ObjectMapper objectMapper=new ObjectMapper();
+                //LOGGER.debug("StoredTrack"+objectMapper.writeValueAsString(storedTrack));
+                Track trackToUpdate=new Track(storedTrack);
+//                LOGGER.error("Track ride"+trackToUpdate.getRideId());
+//                LOGGER.error("Track time series"+trackToUpdate.getTimeSeries().toString());
+//                LOGGER.error("Track GPS"+trackToUpdate.getGpsTrajectory().toString());
+//                LOGGER.error("Track speed"+trackToUpdate.getSpeedTrajectory().toString());
+//                LOGGER.error("Track Altitude"+trackToUpdate.getAltitudeTrajectory().toString());
+                //trackMapper.insertTrack(trackToUpdate);
+                rideTrackingService.updateATrack(trackToUpdate);
+            }
+            else
+                LOGGER.error("Tracking Object is null!");
+
+            //update status
             Ride ride = rideMapper.getById(rid);
             ride.setStatus(ARRIVED);
+            //update arrive time
+            ride.setArrivalTime( LocalDateTime.now());
+            //get updated length in redis cache
+            ride.setTotalLength(storedTrack.getTotalLength());
             rideMapper.updateRide(ride);
+
             //pull order module, to do
-
-            //write track table to confirm
-
 
             //send mqtt message to client to confirm arrived
             ObjectMapper objectMapper=new ObjectMapper();
@@ -195,6 +221,7 @@ public class RideDistributionService {
         }
         catch (Exception e){
             e.printStackTrace();
+            LOGGER.info(e.getMessage());
             return  new GeneralMessageDTO(599,e.getMessage());
         }
     }

@@ -115,9 +115,8 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.6.0</version>
+            <version>4.4.1</version>
         </dependency>
-
 
         <!--   kafka -->
         <dependency>
@@ -129,9 +128,7 @@
             <artifactId>kafka-clients</artifactId>
         </dependency>
 
-
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
