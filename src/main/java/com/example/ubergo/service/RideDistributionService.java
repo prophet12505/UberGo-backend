@@ -15,6 +15,7 @@ import com.example.ubergo.mapper.RideMapper;
 import com.example.ubergo.mapper.TrackMapper;
 import com.example.ubergo.mapper.UserMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class RideDistributionService {
             Long passengerUid=ride.getPassengerUid();
             OrderForm orderForm=orderFormMapper.selectUnpaidUserById(passengerUid);
             if(orderForm!=null){
-                return new GeneralMessageDTO(201, "Order not paid");
+                return new GeneralMessageDTO(201, "Order not paid",orderForm);
             }
             else{
 
@@ -69,6 +71,7 @@ public class RideDistributionService {
                 String channelName=finalRideId+"-"+createARideReqDTO.getProvince()+"-"+createARideReqDTO.getCity();
                 ride.setChannel(channelName);
                 ride.setStatus(CREATED);
+
                 rideMapper.createARide(ride);
                 ride.setId(finalRideId);
 
@@ -76,7 +79,7 @@ public class RideDistributionService {
                 User user=userMapper.getById(ride.getPassengerUid());
                 //send message to the MQTT dispatch channel
                 ObjectMapper objectMapper=new ObjectMapper();
-
+                objectMapper.registerModule(new JavaTimeModule());
                 mqttPushClient.publish("distribution"+"-"+createARideReqDTO.getProvince()+"-"+createARideReqDTO.getCity(),
                         objectMapper.writeValueAsString(new MqttMessageWrapperDTO(DISTRIBUTION_RIDE_CREATED,new PickUpDTO(ride,user))),
                         2);
@@ -109,12 +112,14 @@ public class RideDistributionService {
                 // update ride record
                 ride.setDriverUid(takeOrderReqDTO.getDriverUid());
                 ride.setStatus(GOING_TO_DEPARTURE_POINT);
+                ride.setOrderTakeTime(LocalDateTime.now());
                 rideMapper.updateRide(ride);
 
                 // find driver user accoring to ride
                 User user=userMapper.getById(ride.getDriverUid());
                 //push mqtt message to let client know ride has been taken
                 ObjectMapper objectMapper=new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
 
                 //temporory solution for Jackson localTimeDate unsupported error: set creationTime to null
                 ride.setCreationTime(null);
@@ -139,11 +144,15 @@ public class RideDistributionService {
         try
         {
             //update the status
-            pickUpDTO.getRide().setStatus(ARRIVING);
-            rideMapper.updateRide( pickUpDTO.getRide());
+
+            Ride ride=pickUpDTO.getRide();
+            ride.setStatus(ARRIVING);
+            ride.setPickUpTime(LocalDateTime.now());
+            rideMapper.updateRide( ride);
 
             //send mqtt message to rider's client to notify
             ObjectMapper objectMapper=new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
             //push to private channel that passenger has been picked up
             mqttPushClient.publish(pickUpDTO.getRide().getChannel(),
                     objectMapper.writeValueAsString(new MqttMessageWrapperDTO(PASSENGER_HAS_BEEN_PICKED_UP, null)),
@@ -171,6 +180,7 @@ public class RideDistributionService {
             }
 
             ride.setStatus(CANCELLED);
+            ride.setCancelTime(LocalDateTime.now());
             rideMapper.updateRide(ride);
             return new GeneralMessageDTO(0,"Success");
 
@@ -188,13 +198,10 @@ public class RideDistributionService {
             TrackObject storedTrack = (TrackObject) redisTrackTemplate.opsForHash().get("tracks", rid.toString());
             if(storedTrack!=null){
                 ObjectMapper objectMapper=new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
                 //LOGGER.debug("StoredTrack"+objectMapper.writeValueAsString(storedTrack));
                 Track trackToUpdate=new Track(storedTrack);
-//                LOGGER.error("Track ride"+trackToUpdate.getRideId());
-//                LOGGER.error("Track time series"+trackToUpdate.getTimeSeries().toString());
-//                LOGGER.error("Track GPS"+trackToUpdate.getGpsTrajectory().toString());
-//                LOGGER.error("Track speed"+trackToUpdate.getSpeedTrajectory().toString());
-//                LOGGER.error("Track Altitude"+trackToUpdate.getAltitudeTrajectory().toString());
+
                 //trackMapper.insertTrack(trackToUpdate);
                 rideTrackingService.updateATrack(trackToUpdate);
             }
@@ -210,13 +217,21 @@ public class RideDistributionService {
             ride.setTotalLength(storedTrack.getTotalLength());
             rideMapper.updateRide(ride);
 
-            //pull order module, to do
-
             //send mqtt message to client to confirm arrived
             ObjectMapper objectMapper=new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
             mqttPushClient.publish(ride.getChannel(),
                     objectMapper.writeValueAsString(new MqttMessageWrapperDTO(DESTINATION_ARRIVED, new Object(){public Long rid=ride.getId();})),
                     2);
+
+            //pull order module, to call it in the order module
+//            Integer p=rideMapper.getRideByPassengerId(ride.getPassengerUid()).size();// how many times the user has taken ride
+//            Long tripMinutes=Duration.between(ride.getArrivalTime(),ride.getPickUpTime()).toMinutes();
+//            Double totalLength= ride.getTotalLength();
+
+
+
+
             return new GeneralMessageDTO(0,"Success");
         }
         catch (Exception e){

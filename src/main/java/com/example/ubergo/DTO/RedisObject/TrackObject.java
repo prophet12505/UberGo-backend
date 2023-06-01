@@ -2,6 +2,8 @@ package com.example.ubergo.DTO.RedisObject;
 
 import com.example.ubergo.DTO.MqttDTO.LocationShorthandDTO;
 import com.example.ubergo.DTO.MqttDTO.TrackUpdateDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-//@NoArgsConstructor
+@JsonSerialize
 public class TrackObject implements Serializable {
     private Long rideId;
+    @JsonIgnore
     private LocalDateTime timeSeries;
 
     private List<LocationShorthandDTO> gpsTrajectory;

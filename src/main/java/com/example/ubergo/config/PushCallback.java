@@ -8,6 +8,7 @@ import com.example.ubergo.entity.Track;
 import com.example.ubergo.service.RideTrackingService;
 import com.example.ubergo.utils.LocationUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -62,7 +63,7 @@ public class PushCallback implements MqttCallback {
      * @param message
      */
     @Override
-    public void messageArrived(String topic, MqttMessage message) {
+    public void messageArrived(String topic, MqttMessage message) throws Exception{
         // arrived message would be outputed here
         log.info("message topic : " + topic);
         log.info("received message Qos : " + message.getQos());
@@ -80,6 +81,7 @@ public class PushCallback implements MqttCallback {
                 //update the track to database
                 try{
                     ObjectMapper objectMapper = new ObjectMapper();
+                    objectMapper.registerModule(new JavaTimeModule());
                     TrackUpdateDTO trackUpdateDTO = objectMapper.convertValue(mqttMessageWrapperDTO.getPayload(), TrackUpdateDTO.class);
                     trackUpdateDTO.setTimeSeries(LocalDateTime.now());
                     //Track track=new Track(trackObject);
@@ -102,12 +104,11 @@ public class PushCallback implements MqttCallback {
                                 Double.parseDouble(trackUpdateDTO.getCurrentGps().getLat())
                         );
 
-
-
                         //add updated version to it
                         prevTrackObject.updateTrajectory(trackUpdateDTO);
                         //add length increment
                         prevTrackObject.setTotalLength(prevTrackObject.getTotalLength()+lengthIncrement);
+
 
                         LOGGER.info("A Trajectory:"+prevTrackObject.getAltitudeTrajectory().toString());
                         //update total length, todo
@@ -121,6 +122,10 @@ public class PushCallback implements MqttCallback {
                 }
                 catch (Exception e){
                     LOGGER.error(e.getMessage());
+                    LOGGER.error(e.getLocalizedMessage());
+                    LOGGER.error(String.valueOf(e.getStackTrace()));
+                    LOGGER.error(String.valueOf(e.getCause()));
+
                 }
                 break;
             }

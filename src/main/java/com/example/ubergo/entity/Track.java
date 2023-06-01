@@ -3,6 +3,7 @@ package com.example.ubergo.entity;
 import com.example.ubergo.DTO.RedisObject.TrackObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@JsonSerialize
 public class Track implements Serializable {
 //    private Long id;
     private Long rideId;

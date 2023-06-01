@@ -48,4 +48,10 @@ public class Constants {
     public static final String DEBUG="DEBUG";
     public static final String WARNING="WARNING";
     public static final String ERROR="ERROR";
+
+    //ORDER PRICING
+    public static final Double STARTING_PRICE=12d;
+    public static final Double TOUR_FEE_PER_KM=2.5;
+    public static final Double FUEL_FEE_PER_KM=2.5;
+    public static final Double TIME_FEE_PER_MIN=2.5;
 }
